@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\LessonContentsResource\RelationManagers\LessonRelationManager;
 use App\Filament\Resources\LessonResource\Pages;
 use App\Filament\Resources\LessonResource\RelationManagers;
 use App\Models\Lesson;
@@ -81,7 +82,7 @@ class LessonResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            LessonRelationManager::class
         ];
     }
 

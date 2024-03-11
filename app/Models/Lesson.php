@@ -19,7 +19,7 @@ class Lesson extends Model
         'meta_description'
     ];
 
-    private function course(): BelongsTo
+    public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
     }

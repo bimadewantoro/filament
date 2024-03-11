@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->spa()
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
                 \Awcodes\Curator\CuratorPlugin::make()
                     ->label('Media')

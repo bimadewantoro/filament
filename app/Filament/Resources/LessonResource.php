@@ -23,18 +23,16 @@ class LessonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make()->schema([
-                    Forms\Components\Tabs\Tab::make('Lesson')->schema([
-                        Forms\Components\TextInput::make('title')->required(),
-                        Forms\Components\TextInput::make('meta_description')->required(),
-                        Forms\Components\TextInput::make('duration')->integer()->required(),
-                        Forms\Components\RichEditor::make('overview')->required(),
-                        Forms\Components\Checkbox::make('is_free'),
-                        Forms\Components\Select::make('course_id')
-                            ->relationship('course', 'title')
-                            ->searchable()
-                            ->required()
-                    ])
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\TextInput::make('title')->required(),
+                    Forms\Components\TextInput::make('meta_description')->required(),
+                    Forms\Components\TextInput::make('duration')->integer()->required(),
+                    Forms\Components\RichEditor::make('overview')->required(),
+                    Forms\Components\Checkbox::make('is_free'),
+                    Forms\Components\Select::make('course_id')
+                        ->relationship('course', 'title')
+                        ->searchable()
+                        ->required()
                 ])
             ]);
     }
@@ -43,10 +41,32 @@ class LessonResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('title')->searchable(),
+                Tables\Columns\TextColumn::make('meta_description')->searchable(),
+                Tables\Columns\TextColumn::make('duration')->searchable(),
+                Tables\Columns\CheckboxColumn::make('is_free'),
+                Tables\Columns\TextColumn::make('course.title')
+                    ->searchable()
+                    ->label('Course')
+                    ->badge()
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('Filter By Duration')->form([
+                    Forms\Components\TextInput::make('min_duration')
+                        ->numeric()
+                        ->placeholder('Min Duration'),
+                    Forms\Components\TextInput::make('max_duration')
+                        ->numeric()
+                        ->placeholder('Max Duration')
+                ])->query(function (Builder $query, array $data): Builder{
+                    return $query->when(
+                        $data['min_duration'],
+                        fn (Builder $query, $value): Builder => $query->where('duration', '>=', $value)
+                    )->when(
+                        $data['max_duration'],
+                        fn (Builder $query, $value): Builder => $query->where('duration', '<=', $value)
+                    );
+                })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

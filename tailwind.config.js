@@ -11,6 +11,8 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
         './vendor/awcodes/filament-curator/resources/**/*.blade.php',
+        'node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx,vue}',
+        'node_modules/flowbite/**/*.{js,jsx,ts,tsx}'
     ],
 
     theme: {
@@ -21,5 +23,9 @@ export default {
         },
     },
 
-    plugins: [forms, typography],
+    plugins: [
+        forms,
+        typography,
+        require('flowbite/plugin')
+    ],
 };

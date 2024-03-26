@@ -28,7 +28,7 @@ class LessonRelationManager extends RelationManager
                         Video::class => 'Video',
                     ])
                     ->reactive()
-                    ->afterStateUpdated(function (Forms\Set $set, $state ) {
+                    ->afterStateUpdated(function (Forms\Set $set, $state) {
                         $set('contentable_id', null);
                     }),
                 Forms\Components\Select::make('contentable_id')
@@ -40,8 +40,8 @@ class LessonRelationManager extends RelationManager
                     ->reactive()
                     ->visible(fn (callable $get) => $get('contentable_type') !== null),
                 Forms\Components\TextInput::make('order')
-                    ->default(function () {
-                        $lessonId = $this->getRelationship()->getParent()->id;
+                    ->default(function (){
+                        $lessonId  = $this->getRelationship()->getParent()->id;
                         $maxOrder = LessonContent::where('lesson_id', $lessonId)->max('order');
                         return is_null($maxOrder) ? 1 : $maxOrder + 1;
                     })

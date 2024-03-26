@@ -54,7 +54,17 @@ class LessonRelationManager extends RelationManager
             ->recordTitleAttribute('id')
             ->reorderable('order')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('lesson_id')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('contentable_id')
+                    ->searchable(),
+                Tables\Columns\SelectColumn::make('contentable_type')
+                    ->label('Content Type')
+                    ->options([
+                        Text::class => 'Text',
+                        Video::class => 'Video',
+                    ])
+                    ->searchable(),
             ])
             ->filters([
                 //

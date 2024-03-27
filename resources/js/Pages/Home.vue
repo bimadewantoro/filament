@@ -1,6 +1,13 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {FwbCard, FwbDropdown, FwbListGroup, FwbListGroupItem} from "flowbite-vue";
+
+defineProps({
+    courses: {
+        type: Array,
+        required: true
+    }
+});
 </script>
 
 <template>
@@ -18,11 +25,14 @@ import {FwbCard, FwbDropdown, FwbListGroup, FwbListGroupItem} from "flowbite-vue
                         Courses
                     </h1>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <fwb-card>
+                        <fwb-card v-for="course in courses"
+                                  :key="course.id"
+                                  :img-src="course.media.path"
+                                  :img-alt="course.media.alt"
+                        >
                             <div class="p-5">
                                 <h5 class="mb-2 flex justify-between text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    Test
-
+                                    {{ course?.title }}
                                     <div>
                                         <fwb-dropdown v-if="$page.props.auth.user">
                                             <template #trigger>
@@ -48,7 +58,7 @@ import {FwbCard, FwbDropdown, FwbListGroup, FwbListGroupItem} from "flowbite-vue
                                     </div>
                                 </h5>
                                 <p class="font-normal text-gray-900 dark:text-gray-400">
-                                    Test
+                                    {{ course?.excerpt }}
                                 </p>
                             </div>
                         </fwb-card>

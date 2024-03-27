@@ -65,9 +65,32 @@ class LessonRelationManager extends RelationManager
                         Video::class => 'Video',
                     ])
                     ->searchable(),
+                Tables\Columns\TextColumn::make('order')
+                    ->searchable()
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('contentable_type')
+                    ->options([
+                        Text::class => 'Text',
+                        Video::class => 'Video',
+                    ])
+                    ->label('Content Type'),
+                Tables\Filters\Filter::make('Filter By ID')->form([
+                    Forms\Components\TextInput::make('min_id')
+                        ->numeric()
+                        ->placeholder('Min Content ID'),
+                    Forms\Components\TextInput::make('max_id')
+                        ->numeric()
+                        ->placeholder('Max Content ID')
+                ])->query(function (Builder $query, array $data): Builder{
+                    return $query->when(
+                        $data['min_id'],
+                        fn (Builder $query, $value): Builder => $query->where('contentable_id', '>=', $value)
+                    )->when(
+                        $data['max_id'],
+                        fn (Builder $query, $value): Builder => $query->where('contentable_id', '<=', $value)
+                    );
+                })
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),

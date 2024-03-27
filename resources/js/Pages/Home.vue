@@ -27,10 +27,10 @@ defineProps({
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         <fwb-card v-for="course in courses"
                                   :key="course.id"
-                                  :img-src="course.media.path"
+                                  :img-src="'/storage/' + course.media.path"
                                   :img-alt="course.media.alt"
                         >
-                            <div class="p-5">
+                        <div class="p-5">
                                 <h5 class="mb-2 flex justify-between text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                     {{ course?.title }}
                                     <div>
